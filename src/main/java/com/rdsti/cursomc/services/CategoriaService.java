@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.rdsti.cursomc.domain.Categoria;
 import com.rdsti.cursomc.dto.CategoriaDTO;
@@ -30,6 +31,7 @@ public class CategoriaService {
 		return categoria.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado!"));
 	}
 	
+	@Transactional
 	public Categoria insert(Categoria obj) {
 		
 		obj.setId(null);
