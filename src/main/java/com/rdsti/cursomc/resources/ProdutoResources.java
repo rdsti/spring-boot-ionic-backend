@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.rdsti.cursomc.domain.Categoria;
 import com.rdsti.cursomc.domain.Produto;
-import com.rdsti.cursomc.dto.CategoriaDTO;
 import com.rdsti.cursomc.dto.ProdutoDTO;
 import com.rdsti.cursomc.resources.utils.URL;
 import com.rdsti.cursomc.services.ProdutoService;
@@ -28,7 +26,7 @@ public class ProdutoResources {
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	public ResponseEntity<?> find(@PathVariable Integer id) {
 		
-		Produto produto = produtoService.buscar(id);
+		Produto produto = produtoService.find(id);
 		
 		return ResponseEntity.ok().body(produto);
 	}
