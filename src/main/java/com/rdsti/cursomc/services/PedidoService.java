@@ -46,6 +46,9 @@ public class PedidoService {
 	@Autowired
 	private ProdutoService produtoService;
 	
+	@Autowired
+	private ClienteService clienteService;
+	
 	//@Autowired
 	//private EmailService emailService;
 	
@@ -63,6 +66,7 @@ public class PedidoService {
 		
 		obj.setId(null);
 		obj.setInstante(new Date());
+		obj.setCliente(clienteService.find(obj.getCliente().getId()));
 		obj.getPagamento().setEstado(EstadoPagamento.PENDENTE);
 		obj.getPagamento().setPedido(obj);
 		
@@ -82,6 +86,9 @@ public class PedidoService {
 		}
 		
 		itemPedidoRepository.saveAll(obj.getItens());
+		
+		System.out.println(obj);
+		
 		//emailService.sendOrderConfirmationEmail(obj);
 		
 		return obj;
