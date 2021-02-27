@@ -15,11 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.rdsti.cursomc.domain.Cidade;
 import com.rdsti.cursomc.domain.Cliente;
 import com.rdsti.cursomc.domain.Endereco;
+import com.rdsti.cursomc.domain.enums.Perfil;
 import com.rdsti.cursomc.domain.enums.TipoCliente;
 import com.rdsti.cursomc.dto.ClienteDTO;
 import com.rdsti.cursomc.dto.ClienteNewDTO;
 import com.rdsti.cursomc.repositories.ClienteRepository;
 import com.rdsti.cursomc.repositories.EnderecoRepository;
+import com.rdsti.cursomc.security.UserSS;
+import com.rdsti.cursomc.services.exception.AuthorizationException;
 import com.rdsti.cursomc.services.exception.DataIntegrityException;
 import com.rdsti.cursomc.services.exception.ObjectNotFoundException;
 
@@ -38,6 +41,12 @@ public class ClienteService {
 	
 	public Cliente find(Integer id) {
 		
+		UserSS user = UserService.authenticated();
+		
+		if (user==null || !user.hasRole(Perfil.ADMIN) && !id.equals(user.getId())) {
+			throw new AuthorizationException("Acesso Negado");
+		}
+		
 		Optional<Cliente> categoria = clienteRepository.findById(id);
 		
 		
@@ -54,7 +63,6 @@ public class ClienteService {
 		enderecoRepository.saveAll(obj.getEnderecos());
 		
 		return obj;
-		
 	}
 	
 	public Cliente update(Cliente obj) {
