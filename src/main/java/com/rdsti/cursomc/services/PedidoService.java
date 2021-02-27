@@ -16,11 +16,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.rdsti.cursomc.domain.Categoria;
-import com.rdsti.cursomc.domain.EstadoPagamento;
 import com.rdsti.cursomc.domain.ItemPedido;
 import com.rdsti.cursomc.domain.Pagamento;
 import com.rdsti.cursomc.domain.PagamentoComBoleto;
 import com.rdsti.cursomc.domain.Pedido;
+import com.rdsti.cursomc.domain.enums.EstadoPagamento;
 import com.rdsti.cursomc.dto.CategoriaDTO;
 import com.rdsti.cursomc.repositories.ItemPedidoRepository;
 import com.rdsti.cursomc.repositories.PagamentoRepository;

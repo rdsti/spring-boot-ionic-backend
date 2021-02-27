@@ -9,7 +9,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.rdsti.cursomc.domain.Cliente;
-import com.rdsti.cursomc.domain.TipoCliente;
+import com.rdsti.cursomc.domain.enums.TipoCliente;
 import com.rdsti.cursomc.dto.ClienteNewDTO;
 import com.rdsti.cursomc.repositories.ClienteRepository;
 import com.rdsti.cursomc.resources.exception.FieldMessage;
