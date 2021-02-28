@@ -1,30 +1,25 @@
 package com.rdsti.cursomc.services;
 
-import java.net.URI;
 import java.util.Date;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.rdsti.cursomc.domain.Categoria;
+import com.rdsti.cursomc.domain.Cliente;
 import com.rdsti.cursomc.domain.ItemPedido;
-import com.rdsti.cursomc.domain.Pagamento;
 import com.rdsti.cursomc.domain.PagamentoComBoleto;
 import com.rdsti.cursomc.domain.Pedido;
 import com.rdsti.cursomc.domain.enums.EstadoPagamento;
-import com.rdsti.cursomc.dto.CategoriaDTO;
 import com.rdsti.cursomc.repositories.ItemPedidoRepository;
 import com.rdsti.cursomc.repositories.PagamentoRepository;
 import com.rdsti.cursomc.repositories.PedidoRepository;
+import com.rdsti.cursomc.security.UserSS;
+import com.rdsti.cursomc.services.exception.AuthorizationException;
 import com.rdsti.cursomc.services.exception.ObjectNotFoundException;
 
 @Service
@@ -96,5 +91,19 @@ public class PedidoService {
 		return obj;
 	
 	}
+	
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSS user = UserService.authenticated();
+		
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado");
+		}
+		
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		Cliente cliente =  clienteService.find(user.getId());
+		
+		return pedidoRepository.findByCliente(cliente, pageRequest);
+	}
+
 	
 }
